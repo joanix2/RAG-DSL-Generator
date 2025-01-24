@@ -7,3 +7,6 @@
 [submodule "XML-DSL-Compiler"]
 	path = XML-DSL-Compiler
 	url = https://github.com/joanix2/XML-DSL-Compiler-Generator
+[submodule "XML_DSL_Compiler"]
+	path = XML_DSL_Compiler
+	url = https://github.com/joanix2/XML-DSL-Compiler-Generator

@@ -8,8 +8,8 @@ from flask_jwt_extended import (
 )
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from src.parser import parse_xml_file
-from src.build import build_infrastructure
+from XML_DSL_Compiler.src.parser import parse_xml_file
+from XML_DSL_Compiler.src.build import build_infrastructure
 from src.mongo import connect_to_mongo, get_or_create_collection
 
 app = Flask(__name__)
