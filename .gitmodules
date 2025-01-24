@@ -1,3 +1,9 @@
 [submodule "IaC-EC2"]
 	path = IaC-EC2
 	url = https://github.com/joanix2/IaC-EC2
+[submodule "RAG-Agent"]
+	path = RAG-Agent
+	url = https://github.com/joanix2/RAG
+[submodule "XML-DSL-Compiler"]
+	path = XML-DSL-Compiler
+	url = https://github.com/joanix2/XML-DSL-Compiler-Generator
