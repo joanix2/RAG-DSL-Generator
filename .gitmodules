@@ -1,0 +1,3 @@
+[submodule "IaC-EC2"]
+	path = IaC-EC2
+	url = https://github.com/joanix2/IaC-EC2
