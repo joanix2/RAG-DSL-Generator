@@ -13,3 +13,6 @@
 [submodule "rag"]
 	path = rag
 	url = https://github.com/joanix2/RAG
+[submodule "xml_flow"]
+	path = xml_flow
+	url = https://github.com/joanix2/XMLFlow.git
