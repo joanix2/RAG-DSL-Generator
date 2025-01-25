@@ -10,3 +10,6 @@
 [submodule "XML_DSL_Compiler"]
 	path = XML_DSL_Compiler
 	url = https://github.com/joanix2/XML-DSL-Compiler-Generator
+[submodule "rag"]
+	path = rag
+	url = https://github.com/joanix2/RAG
