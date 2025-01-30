@@ -15,7 +15,8 @@ jobs:
 
       - name: Transfer files to EC2
         run: |
-          scp -i ${{ secrets.SSH_PRIVATE_KEY }} -r * ubuntu@${{ secrets.EC2_PUBLIC_DNS }}:/home/ubuntu
+          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@${{ secrets.EC2_PUBLIC_DNS }} "mkdir -p /home/ubuntu/app"
+          scp -i ${{ secrets.SSH_PRIVATE_KEY }} -r * ubuntu@${{ secrets.EC2_PUBLIC_DNS }}:/home/ubuntu/app
 
       - name: Build and run Docker Compose on EC2
         run: |
