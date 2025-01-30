@@ -1,0 +1,45 @@
+# Ignorer les configurations et fichiers spécifiques à l'infrastructure
+IaC-EC2/
+.github/
+
+# Fichiers temporaires et caches Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.pyo
+*.pyd
+
+# Exclure les logs et fichiers temporaires
+*.log
+*.tmp
+*.swp
+*.swo
+
+# Exclure les environnements virtuels locaux
+venv/
+.env
+*.env
+.envrc
+.pdm.toml
+Pipfile
+Pipfile.lock
+poetry.lock
+
+# Fichiers système inutiles (macOS, Windows)
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Exclure les fichiers de documentation et TODO
+TODO.md
+LICENSE
+README.md
+
+# Ignorer les fichiers de build et les fichiers spécifiques aux IDE
+output/
+
+# Exclure Docker lui-même (éviter des conflits)
+.dockerignore
+Dockerfile
+docker-compose.yml
