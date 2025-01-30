@@ -22,3 +22,14 @@ docker run -d --name mongodb-container \
 - `mongo` : Utilise l'image officielle MongoDB.
 
 ---
+
+# Source
+## DSL parser :
+https://github.com/textX/textX
+https://github.com/davydany/data_transformer
+
+## LMMs
+https://github.com/langchain-ai/langchain
+
+## UI 
+https://github.com/xyflow/xyflow
