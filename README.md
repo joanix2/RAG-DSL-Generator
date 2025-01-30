@@ -23,13 +23,21 @@ docker run -d --name mongodb-container \
 
 ---
 
+# Routes
+
+curl -X GET http://localhost:5000/check-mongo
+
 # Source
+
 ## DSL parser :
+
 https://github.com/textX/textX
 https://github.com/davydany/data_transformer
 
 ## LMMs
+
 https://github.com/langchain-ai/langchain
 
-## UI 
+## UI
+
 https://github.com/xyflow/xyflow
