@@ -7,15 +7,18 @@ from flask_jwt_extended import (
     JWTManager, create_access_token, jwt_required, get_jwt_identity
 )
 from werkzeug.security import generate_password_hash, check_password_hash
+import yaml
 
 from XML_DSL_Compiler.src.parser import parse_xml_file
 from XML_DSL_Compiler.src.build import build_infrastructure
+from src.github_manager import GitHubRepoManager
 from src.mongo import connect_to_mongo, get_or_create_collection
 
 app = Flask(__name__)
 
 # Configuration de la clé secrète pour JWT
-app.config["JWT_SECRET_KEY"] = "votre_cle_secrete_pour_jwt"  # Changez cette clé pour quelque chose de sécurisé
+app.config["JWT_SECRET_KEY"] = "votre_cle_secrete_pour_jwt"
+app.config["GITHUB_TOKEN"] = "ghp_***" 
 jwt = JWTManager(app)
 
 # Chemin par défaut pour l'infrastructure
@@ -110,6 +113,59 @@ def compile_endpoint():
             "output_dir": output_dir
         }), 200
     
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+@app.route('/push', methods=['POST'])
+@jwt_required()
+def push_endpoint():
+    """
+    Endpoint pour publier un projet sur GitHub via GitHubRepoManager.
+    Le projet est défini par le fichier YAML généré dans BASE_OUTPUT_DIR/<id>/infrastructure.yml.
+    
+    Paramètres (JSON dans le body de la requête) :
+      - id (str) : identifiant du projet (utilisé pour localiser le fichier YAML).
+    """
+    data = request.get_json(force=True)
+    project_id = data.get('id')
+    if not project_id:
+        return jsonify({"error": "Le champ 'id' est requis."}), 400
+
+    config_file = os.path.join(BASE_OUTPUT_DIR, project_id, "infrastructure.yml")
+    if not os.path.exists(config_file):
+        return jsonify({"error": f"Fichier introuvable : {config_file}"}), 404
+
+    try:
+        # Charger la configuration du projet depuis le fichier YAML
+        with open(config_file, "r", encoding="utf-8") as f:
+            config = yaml.safe_load(f)
+
+        project_name = config.get("project_name", "default_project")
+        output_dir = config.get("output_dir", "")
+        structure = config.get("structure", [])
+
+        # Initialiser le gestionnaire GitHub avec le token configuré
+        github_token = app.config.get("GITHUB_TOKEN")
+        github_manager = GitHubRepoManager(github_token)
+
+        # Créer le dépôt GitHub
+        repo = github_manager.create_repo(
+            name=project_name,
+            private=False,
+            description="Dépôt généré automatiquement via GitHubRepoManager."
+        )
+        if repo is None:
+            return jsonify({"error": "Échec de la création du dépôt GitHub."}), 500
+
+        # Définir le chemin de base pour la structure (ex : "generated" ou autre)
+        base_path = output_dir if output_dir else ""
+        github_manager.add_structure(repo, structure, base_path)
+
+        return jsonify({
+            "message": "Projet publié sur GitHub avec succès.",
+            "repo_url": repo.html_url
+        }), 200
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
